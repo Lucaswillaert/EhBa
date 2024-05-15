@@ -1,5 +1,10 @@
+import os
 import azure.functions as func
+import openai
 import logging
+
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
