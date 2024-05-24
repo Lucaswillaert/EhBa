@@ -1,9 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHB Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body class="text-center py-5 bg-gray-200 text-gray-800">
-    <h1 class="text-4xl">Hello, world!</h1>
+<body>
+    <h1>EHB Chatbot</h1>
+    <form id="chat-form">
+        <label for="question">Vraag:</label>
+        <input type="text" id="question" name="question" required>
+        <button type="submit">Verstuur</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#chat-form').on('submit', function(event) {
+                event.preventDefault();
+                var question = $('#question').val();
+                $.ajax({
+                    url: '/chat',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ question: question }),
+                    success: function(response) {
+                        $('#response').text(response);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
