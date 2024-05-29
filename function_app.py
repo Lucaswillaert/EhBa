@@ -25,12 +25,12 @@ def ehbchatfunction(req: func.HttpRequest) -> func.HttpResponse:
         req_body = req.get_json()
     except ValueError:
         return func.HttpResponse("invalid JSON", status_code=400)
-    
+    #haalt de vraag op  
     question = req_body.get('question')
-
+    #check op vraag
     if not question: 
         return func.HttpResponse("Please provide a question." , status_code=400)
-    
+    #haalt het resultaat van de vraag op met de meegegeven vraag
     results = search_client.search(search_text=question)
 
     answers = [doc['content'] for doc in results]
