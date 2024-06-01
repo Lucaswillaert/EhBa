@@ -1,16 +1,16 @@
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import requests
 import os
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+app = Flask(__name__)
 
 function_app_url = "http://ehb-chatbot.azurewebsites.net/api/ehbchatbot"  # Update this with the actual Azure function URL if deployed
 API_KEY = os.getenv("AZURE_FUNCTION_API_KEY")
 
 @app.route('/', methods=['GET'])
 def home():
-    return "Welcome to my Flask app!"
+    return render_template('index.html')
 
 
 @app.route('/chat', methods=['POST'])

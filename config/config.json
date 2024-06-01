@@ -1,5 +1,4 @@
 {
     "subscription_id": "e9e164ff-10a6-456c-87ce-a8dbc23b7edb",
-    "resource_group": "ehb-chatbot",
-    "workspace_name": "ehbchatbotMLspace"
+    "resource_group": "ehb-chatbot"
 }
