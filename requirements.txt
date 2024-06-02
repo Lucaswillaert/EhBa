@@ -5,3 +5,5 @@
 azure-functions
 flask
 requests
+openai
+python-dotenv

@@ -3,10 +3,24 @@ import openai
 import os
 import json
 import azure.functions as func
+from dotenv import load_dotenv
 
+load_dotenv()
 # Set up Azure OpenAI
-openai.api_key = "b2d18fd406c84ee88cdcf1b954cd882f"
-openai_endpoint = "https://ehbot.openai.azure.com/"
+azure_oai_key = os.getenv("OPENAI_API_KEY_1")
+azure_oai_endpoint = os.getenv("OPENAI_ENDPOINT")
+azure_oai_deployment = os.getenv("OPENAI_DEPLOYMENT")
+
+logging.info("Azure OpenAI Key: %s", azure_oai_key)
+logging.info("Azure OpenAI Endpoint: %s", azure_oai_endpoint)
+logging.info("Azure OpenAI Deployment: %s", azure_oai_deployment)
+
+# Initialize the Azure OpenAI client
+client = openai.AzureOpenAI(
+    azure_endpoint=azure_oai_endpoint,
+    api_key=azure_oai_key,
+    api_version="2024-02-15-preview"
+)
 
 
 def is_relevant_query(query):
@@ -72,21 +86,14 @@ def is_relevant_query(query):
     return False
 
 
-def build_prompt(question):
-    # Construct the prompt with the chat history
-    prompt = (
-        "Je bent een behulpzame assistent die vragen beantwoordt over de Erasmus Hogeschool Brussel (EhB)."
-        "Beantwoord alleen vragen die specifiek betrokken zijn met de erasmus hogeschool Brussel en zijn opleidingen."
-        "Als de vraag niet relevant is aan de erasmus hogeschool Brussel en zijn opleidingen, geef dan aan dat de vraag niet relevant is"
-        f"Vraag: {question}\nAntwoord: "
-    )
-
-
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('HTTP trigger function received a request.')
 
+    system_message = """Je bent een behulpzame assistent die vragen beantwoordt over de Erasmus Hogeschool Brussel (EhB).
+    Beantwoord alleen vragen die specifiek betrokken zijn met de erasmus hogeschool Brussel en zijn opleidingen.
+    Als de vraag niet relevant is aan de erasmus hogeschool Brussel en zijn opleidingen, geef dan aan dat de vraag niet relevant is"""
+
     try:
-        # Extract the question and chat history from the request
         request_data = req.get_json()
         question = request_data.get('question')
 
@@ -98,23 +105,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             return func.HttpResponse("This chatbot only answers questions about Erasmushogeschool Brussel.",
                                      status_code=400)
 
-        # Perform prompt engineering by building the prompt with chat history
-        prompt = build_prompt(question)
-
         # Send the prompt to the OpenAI deployment
-        response = openai.Completion.create(
-            engine=openai_endpoint,
-            prompt=prompt,
-            max_tokens=150
+        response = client.chat.completions.create(
+            model=azure_oai_deployment,
+            temperature=0.7,
+            max_tokens=400,
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": question}
+            ]
         )
 
-        # Prepare the response
-        result = {
-            "openai_response": response.choices[0].text.strip()
-        }
-
-        return func.HttpResponse(json.dumps(result), mimetype="application/json")
+        generated_text = response.choices[0].message.content
+        return func.HttpResponse(json.dumps(generated_text), mimetype="application/json")
 
     except Exception as e:
         logging.error(f"Error processing request: {e}")
         return func.HttpResponse("Error processing request", status_code=500)
+
