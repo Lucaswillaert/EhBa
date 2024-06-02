@@ -5,7 +5,11 @@ module.exports = {
     "./static/src/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        '4/5': '80%',
+      }
+    },
   },
   plugins: [],
 }
