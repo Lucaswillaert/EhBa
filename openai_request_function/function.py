@@ -117,7 +117,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         )
 
         generated_text = response.choices[0].message.content
-        return func.HttpResponse(json.dumps(generated_text), mimetype="application/json")
+        return func.HttpResponse(json.dumps(generated_text), mimetype="application/json", headers={
+            'Access-Control-Allow-Origin': '*'
+        })
 
     except Exception as e:
         logging.error(f"Error processing request: {e}")
