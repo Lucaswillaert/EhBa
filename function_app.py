@@ -113,4 +113,3 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as e:
         logging.error(f"Error processing request: {e}")
         return func.HttpResponse("Error processing request", status_code=500)
-, 
