@@ -98,12 +98,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         question = request_data.get('question')
 
         if not question:
-            return func.HttpResponse("Please pass a question in the request", status_code=400)
+            return func.HttpResponse(json.dumps({"status": "error", "message": "Please pass a question in the request"}), status_code=400)
 
         # Check if the question is relevant
         if not is_relevant_query(question):
-            return func.HttpResponse("This chatbot only answers questions about Erasmushogeschool Brussel.",
-                                     status_code=400)
+            return func.HttpResponse(json.dumps({"status": "error", "message": "This chatbot only answers questions about Erasmushogeschool Brussel."}), status_code=400)
 
         # Send the prompt to the OpenAI deployment
         response = client.chat.completions.create(
@@ -117,11 +116,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         )
 
         generated_text = response.choices[0].message.content
-        return func.HttpResponse(json.dumps(generated_text), mimetype="application/json", headers={
+        return func.HttpResponse(json.dumps({"status": "success", "message": generated_text}), mimetype="application/json", headers={
             'Access-Control-Allow-Origin': '*'
         })
 
     except Exception as e:
         logging.error(f"Error processing request: {e}")
-        return func.HttpResponse("Error processing request", status_code=500)
+        return func.HttpResponse(json.dumps({"status": "error", "message": "Error processing request"}), status_code=500)
 
