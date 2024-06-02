@@ -8,13 +8,31 @@
     <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
 </head>
 <body>
-    <h1>EHB Chatbot</h1>
-    <form id="chat-form">
-        <label for="question">Vraag:</label>
-        <input type="text" id="question" name="question" required>
-        <button type="submit">Verstuur</button>
-    </form>
-    <div id="response"></div>
+    <div class="container min-w-full min-h-screen flex justify-center items-center bg-gray-100">
+        <div class="w-2/3 rounded-xl shadow-lg p-8 bg-white">
+            <h1 class="text-2xl font-bold mb-4">EHB Chatbot</h1>
+            <div id="chat-history" class="overflow-auto h-64 mb-4 rounded-xl p-4 bg-gray-200">
+                <!-- Template for the user's questions -->
+                <div class="message user-message flex justify-end items-start mb-4">
+                    <div class="bg-blue-500 text-white rounded-tl-lg rounded-bl-lg rounded-br-lg px-4 py-2">
+                        User's question goes here
+                    </div>
+                </div>
+
+                <!-- Template for the bot's responses -->
+                <div class="message bot-message flex justify-start items-start mb-4">
+                    <div class="bg-gray-300 text-black rounded-tr-lg rounded-br-lg rounded-bl-lg px-4 py-2">
+                        Bot's response goes here
+                    </div>
+                </div>
+            </div>
+            <form id="chat-form" class="flex w-full">
+                <input type="text" id="question" name="question" required placeholder="vraag" class="flex-grow border-2 p-2 rounded">
+                <button type="submit" class="ml-2 px-4 py-2 rounded bg-blue-500 text-white">Verstuur</button>
+            </form>
+            <div id="response"></div>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function() {
