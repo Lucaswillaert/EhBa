@@ -107,7 +107,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # Send the prompt to the OpenAI deployment
         response = client.chat.completions.create(
             model=azure_oai_deployment,
-            temperature=0.7,
+            temperature=0.3,
             max_tokens=400,
             messages=[
                 {"role": "system", "content": system_message},
