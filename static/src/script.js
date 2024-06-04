@@ -11,9 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('chat-history').appendChild(userMessageDiv);
 
         var xhr = new XMLHttpRequest();
-        var proxyUrl = 'http://localhost:8080/';
-        var targetUrl = 'https://ehb-chatbot.azurewebsites.net/api/openai_request_function?code=8CyjNc52VM-4ays5jYzl3gxNYYx9ZesCyPIxJ56bNM8qAzFu6Zl7tA==';
-        xhr.open('POST', proxyUrl + targetUrl, true);
+        var targetUrl = '/chat'; // Local endpoint
+        xhr.open('POST', targetUrl, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onload = function() {
             if (this.status >= 200 && this.status < 400) {
