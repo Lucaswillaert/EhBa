@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create and append user message
         var userMessageDiv = document.createElement('div');
-Chorte        userMessageDiv.className = 'message user-message flex justify-end items-start mb-4';
+        userMessageDiv.className = 'message user-message flex justify-end items-start mb-4';
         userMessageDiv.innerHTML = '<div class="bg-blue-500 text-white rounded-tl-lg rounded-bl-lg rounded-br-lg px-4 py-2 max-w-4/5">' + question + '</div>';
         document.getElementById('chat-history').appendChild(userMessageDiv);
 
