@@ -1,0 +1,16 @@
+FROM nikolaik/python-nodejs:python3.12-nodejs22-alpine
+
+USER pn
+WORKDIR /home/pn/app
+
+ADD . /home/pn/app
+
+USER root
+RUN npm install
+USER pn
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 5000
+
+CMD ["python", "-m", "app"]
