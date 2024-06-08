@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+button:disabled {
+  @apply bg-gray-300 cursor-not-allowed;
+}

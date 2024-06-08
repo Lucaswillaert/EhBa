@@ -8,7 +8,10 @@ module.exports = {
     extend: {
       maxWidth: {
         '4/5': '80%',
-      }
+      },
+      height: {
+        'screen/60': '60vh',
+      },
     },
   },
   plugins: [],
