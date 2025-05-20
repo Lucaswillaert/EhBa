@@ -5,7 +5,7 @@
 [![Docker Compose](https://img.shields.io/badge/docker%20compose-3.12-blue)](https://docs.docker.com/compose/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-EhBa is a school project developed for the 'AI Essentials' course at Erasmushogeschool Brussel. The project leverages the power of Azure's OpenAI model to answer questions about Erasmushogeschool Brussel. It does this by indexing data from the EhB website and processing requests through an Azure Function App.
+EhBa is a school project developed at Erasmushogeschool Brussel. The project leverages the power of Azure's OpenAI model to answer questions about Erasmushogeschool Brussel. It does this by indexing data from the EhB website and processing requests through an Azure Function App.
 
 ---
 
